@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banner de Contratação - BAR POINT DA ENTRADA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-gradient-to-r from-blue-600 to-purple-700 text-white p-8 md:p-12 lg:p-16 rounded-xl shadow-2xl max-w-4xl w-full text-center transform hover:scale-105 transition-transform duration-300 ease-in-out">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight">
+            BAR POINT DA ENTRADA
+        </h1>
+        <h2 class="text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 text-yellow-300">
+            ESTÁ CONTRATANDO!
+        </h2>
+        <p class="text-xl md:text-2xl lg:text-3xl font-medium mb-4">
+            FUNCIONÁRIOS:
+        </p>
+        <p class="text-lg md:text-xl lg:text-2xl mb-6">
+            DO SEXO FEMININO E MASCULINO
+        </p>
+        <p class="text-lg md:text-xl lg:text-2xl mb-6">
+            PARA TRABALHAR DE SEXTA, SÁBADO, DOMINGO
+        </p>
+
+        <div class="bg-white text-gray-800 p-6 rounded-lg shadow-inner mt-8 mb-8">
+            <p class="text-xl md:text-2xl lg:text-3xl font-bold mb-2">
+                ENTREVISTAS NO LOCAL:
+            </p>
+            <p class="text-lg md:text-xl lg:text-2xl font-semibold">
+                QUADRA 116 LOJA 17
+            </p>
+            <p class="text-lg md:text-xl lg:text-2xl font-semibold">
+                AVENIDA LAGO AZUL
+            </p>
+        </div>
+
+        <p class="text-xl md:text-2xl lg:text-3xl font-bold text-yellow-300 mb-4">
+            Venha fazer parte da nossa equipe!
+        </p>
+        
+        <div class="mt-8 pt-8 border-t border-gray-500">
+            <button id="generateDescriptionBtn" class="bg-yellow-400 hover:bg-yellow-500 text-blue-900 font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 mb-4">
+                ✨ Gerar Descrição de Cargo
+            </button>
+            
+            <div id="loadingIndicator" class="mt-4 text-yellow-300 hidden">
+                Gerando descrição...
+            </div>
+            
+            <div id="jobDescriptionOutput" class="bg-white text-gray-800 p-6 rounded-lg shadow-inner mt-6 text-left whitespace-pre-wrap min-h-[100px]">
+                <p class="text-gray-500 italic">Clique no botão acima para gerar uma descrição de cargo.</p>
+            </div>
+            
+            <button id="copyDescriptionBtn" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded hidden">
+                Copiar Descrição
+            </button>
+            
+            <div id="copyConfirmation" class="mt-2 text-green-400 hidden">
+                Descrição copiada com sucesso!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados pré-definidos para simular a IA
+        const jobDescriptions = [
+            `**Cargo:** Atendente de Bar (Sexo Feminino/Masculino)
+**Local:** Bar Point da Entrada
+**Dias de Trabalho:** Sexta, Sábado e Domingo
+
+**Responsabilidades:**
+- Atendimento ao cliente com simpatia e profissionalismo
+- Preparação de bebidas e coquetéis simples
+- Manutenção da limpeza e organização do bar
+- Controle de caixa básico
+
+**Requisitos:**
+- Disponibilidade para trabalhar nos finais de semana
+- Boa comunicação e trabalho em equipe
+- Não é necessário experiência prévia
+
+**Benefícios:**
+- Ambiente descontraído e dinâmico
+- Comissão sobre vendas
+- Uniforme fornecido pela empresa`,
+
+            `**Vaga para Garçom/Garçonete**
+**Local:** Bar Point da Entrada - Quadra 116 Loja 17
+
+**Horários:** Sexta (18h-00h), Sábado (17h-01h), Domingo (16h-23h)
+
+**Atribuições:**
+- Servir clientes com agilidade e educação
+- Anotar pedidos corretamente
+- Conhecer o cardápio de bebidas
+- Auxiliar na organização do estabelecimento
+
+**Perfil Desejado:**
+- Proativo e organizado
+- Resistência para trabalhar em pé
+- Facilidade com trabalhos noturnos
+
+**Vantagens:**
+- Pagamento semanal
+- Equipe jovem e unida
+- Treinamento fornecido`
+        ];
+
+        // Elementos do DOM
+        const generateBtn = document.getElementById('generateDescriptionBtn');
+        const copyBtn = document.getElementById('copyDescriptionBtn');
+        const outputDiv = document.getElementById('jobDescriptionOutput');
+        const loading = document.getElementById('loadingIndicator');
+        const copyConfirm = document.getElementById('copyConfirmation');
+
+        // Gerar descrição aleatória
+        generateBtn.addEventListener('click', function() {
+            loading.classList.remove('hidden');
+            outputDiv.innerHTML = '<p class="text-gray-500">Gerando...</p>';
+            
+            setTimeout(() => {
+                const randomDescription = jobDescriptions[Math.floor(Math.random() * jobDescriptions.length)];
+                outputDiv.innerHTML = randomDescription.replace(/\n/g, '<br>');
+                loading.classList.add('hidden');
+                copyBtn.classList.remove('hidden');
+            }, 1000);
+        });
+
+        // Copiar descrição
+        copyBtn.addEventListener('click', function() {
+            const textToCopy = outputDiv.innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                copyConfirm.classList.remove('hidden');
+                setTimeout(() => copyConfirm.classList.add('hidden'), 2000);
+            });
+        });
+    </script>
+</body>
+</html>
